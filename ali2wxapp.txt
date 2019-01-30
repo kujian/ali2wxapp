@@ -1,0 +1,157 @@
+==============================
+*以utf-8编码编写 有新的匹配规则可以告诉我 我来进行添加
+*注意：以DIR,JSmethod,JS,AXML为开始，以end结尾，#为注释。如果不会请按模版修改
+==============================
+-----------------
+转换文件的目录 ***记得需要进行修改***
+-----------------
+DIR
+	Z:\Program\workspaces\wx\LogisticsCabinetwc\trunk\LogisticsCabinetwc
+end
+-----------------
+js函数名的替换
+-----------------
+JSmethod
+	httpRequest--->request
+	getAuthCode--->login
+	confirm--->showModal
+	getAuthUserInfo--->getUserInfo
+	tradePay--->requestPayment
+	saveImage--->saveImageToPhotosAlbum
+	setNavigationBar--->setNavigationBarTitle #导航栏标题
+	setNavigationBar--->setNavigationBarColor #导航栏颜色
+	getClipboardDatagetClipboard---> #粘贴板
+	setClipboardData---> #粘贴板
+	toTempFilePathcanvasT--->oTempFilePath #1.1.3 当前画布的内容导出生成图片
+	scan--->scanCode
+	disconnectBLEDevice--->closeBLEConnection
+end
+-----------------
+js中的函数参数的替换
+-----------------
+JS
+	import\s+(\w+)\s+from\s+(["']\S+["']);*--->var $1 = require($2);
+	export default (\S*)---> module.exports = $1
+end
+-----------------
+axml中的内容替换
+-----------------
+AXML
+	(^||\s+)a:--->$1wx:
+	(^||\s+)onTap\s*=--->$1bindtap=
+	(^||\s+)onLongTap\s*=--->$1bindlongtap=
+	(^||\s+)onInput\s*=--->$1bindinput=
+	(^||\s+)onChange\s*=--->$1bindchange=
+	(^||\s+)onFocus\s*=--->$1bindfocus=
+	(^||\s+)onBlur\s*=--->$1bindblur=
+	(^||\s+)onConfirm\s*=--->$1bindconfirm=
+	(^||\s+)onSubmit\s*=--->$1bindsubmit=
+	(^||\s+)onReset\s*=--->$1bindreset=
+	(^||\s+)onTouchStart\s*=--->$1bindtouchstart=
+	(^||\s+)onTouchMove\s*=--->$1bindtouchmove=
+	(^||\s+)onTouchEnd\s*=--->$1bindtouchend=
+	(^||\s+)onTouchCancel\s*=--->$1bindtouchcancel=
+	(^||\s+)onMarkerTap\s*=--->$1bindmarkertap=
+	(^||\s+)onCalloutTap\s*=--->$1bindcallouttap=
+	(^||\s+)onControlTap\s*=--->$1bindcontroltap=
+	(^||\s+)onRegionChange\s*=--->$1bindregionchange=
+	(^||\s+)onScrollToUpper\s*=--->$1bindscrolltoupper=
+	(^||\s+)onScrollToLower\s*=--->$1bindscrolltolower=
+	(^||\s+)onScroll\s*=--->$1bindscroll=
+	(^||\s+)on([A-Z]{1}\w+)\s*=--->$1bind$2=
+	\<canvas(.*?)\s+id=---><canvas$1 canvas-id=
+	(\w+)\.axml(\W)--->$1.wxml$2 # import include替换文件axml为wxml
+end
+-----------------
+ACSS中的内容替换
+-----------------
+ACSS
+	(@import\s*['"]\S*?)\.acss(['"])--->$1.wxss$2
+end
+-----------------
+json中的内容替换
+-----------------
+JSON
+	(^||\s+\W)titleBarColor(\W)--->$1navigationBarTextStyle$2
+	(^||\s+\W)defaultTitle(\W)--->$1navigationBarTitleText$2
+	(^||\s+\W)pullRefresh(\W)--->$1enablePullDownRefresh$2
+	(^||\s+\W)allowsBounceVertical(\W)--->$1disableScroll$2
+	(^||\s+\W)textColor(\W)--->$1color$2
+	(^||\s+\W)items(\W)--->$1list$2
+	(^||\s+\W)name(\W)--->$1text$2
+	(^||\s+\W)icon(\W)--->$1iconPath$2
+	(^||\s+\W)activeIcon(\W)--->$1selectedIconPath$2
+end
+-----------------
+js中的api参数对象的的属性名称替换
+-----------------
+JS_API_PROP_REPLACE
+	PRO: #api名称
+		showToast #showToast中的title
+	KEYS: #替换的属性名对
+		content--->title
+		type--->icon
+	#==========================================
+	PRO: 
+		showLoading #显示加载框
+	KEYS: 
+		content--->title
+	#==========================================	
+	PRO: 
+		confirm #显示提示框
+	KEYS: 
+		confirmButtonText--->confirmText
+		cancelButtonText--->cancelText
+	#==========================================	
+	PRO: 
+		showActionSheet
+	KEYS: 
+		itemList--->items
+	#==========================================	
+	PRO: 
+		setTextAlign
+	KEYS: 
+		textAlign--->align
+	#==========================================	
+	PRO: 
+		previewImage
+	KEYS: 
+		current--->current=number->string
+	#==========================================	
+	PRO: 
+		getLocation #获取位置
+	KEYS: 
+		type--->type=number->string
+	#==========================================
+	PRO: 
+		saveImage
+	KEYS: 
+		url--->filePath
+	#==========================================	
+	PRO: 
+		httpRequest
+	KEYS: 
+		headers--->header
+	#==========================================	
+	PRO: 
+		uploadFile
+	KEYS: 
+		fileName--->name
+	#==========================================	
+	PRO: 
+		connectSocket
+	KEYS: 
+		headers--->header
+	#==========================================	
+	PRO: 
+		setClipboard
+	KEYS: 
+		text--->data
+	#==========================================	
+	PRO: 
+		makePhoneCall
+	KEYS: 
+		number--->phoneNumber
+end
+
+OVER
