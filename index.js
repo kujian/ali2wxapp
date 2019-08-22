@@ -73,6 +73,8 @@ const config = {
     toMethods: [],
     JSRegexp: [],
     JSToRegexp: [],
+    WXSRegexp: [],
+    WXSToRegexp: [],
     AXMLRegexp: [],
     AXMLToRegexp: [],
 	JSONRegexp:[],
@@ -114,6 +116,10 @@ rl
         } else if ("JS" === state) {
             let aTob = line.split("--->");
             addJSRegexp(aTob[0], aTob[1]);
+        } else if ("WXS" === state) {
+            console.log("WXS替换");
+            let aTob = line.split("--->");
+            addWXSRegexp(aTob[0], aTob[1]);
         } else if ("AXML" === state) {
             let aTob = line.split("--->");
             addAXMLRegexp(aTob[0], aTob[1]);
@@ -139,6 +145,7 @@ function main(){
     // console.log(config.JSApiPropReplace)
     addUpdateSuffix("axml", "wxml");// 这边的order是UPDATESUFFIX 所以是修改后缀名 wxml->axml
     addUpdateSuffix("acss", "wxss");// wxss->acss
+    addUpdateSuffix(".sjx", ".wxs");// sjx->wxs
     setOrder(UPDATESUFFIX);
     HandleFile(config.dir);
     clearSuffix();
@@ -183,6 +190,16 @@ function addJSRegexp(suffix, toSuffix) {
 function clearJSRegexp() {
     config.JSRegexp = [];
     config.JSToRegexp = [];
+}
+
+function addWXSRegexp(suffix, toSuffix) {
+    config.WXSRegexp.push(suffix);
+    config.WXSToRegexp.push(toSuffix || "");
+}
+
+function clearWXSRegexp() {
+    config.WXSRegexp = [];
+    config.WXSToRegexp = [];
 }
 
 // ----------------------------------- amxl要更新的正则表达式
@@ -408,6 +425,20 @@ function wx2ant(file) {
             let content = fs.readFileSync(file, "utf8");
             for (let i in ACSSRegexp) {// 修改不一样的方法
                 content = content.replace(new RegExp(ACSSRegexp[i], "g"), ACSSToRegexp[i]);
+            }
+            fs.writeFileSync(file, content);
+            console.log("转换acss文件：" + file);
+        } catch (e) {
+            console.log(e)
+            console.log("转换acss文件出错：" + file);
+        }
+    }else if (path.extname(file) === ".wxs") {
+        let WXSRegexp = config.WXSRegexp;
+        let WXSToRegexp = config.WXSToRegexp;
+        try {
+            let content = fs.readFileSync(file, "utf8");
+            for (let i in WXSRegexp) {// 修改不一样的方法
+                content = content.replace(new RegExp(WXSRegexp[i], "g"), WXSToRegexp[i]);
             }
             fs.writeFileSync(file, content);
             console.log("转换acss文件：" + file);

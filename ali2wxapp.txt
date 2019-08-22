@@ -1,4 +1,4 @@
-==============================
+﻿==============================
 *以utf-8编码编写 有新的匹配规则可以告诉我 我来进行添加
 *注意：以DIR,JSmethod,JS,AXML为开始，以end结尾，#为注释。如果不会请按模版修改
 ==============================
@@ -34,6 +34,12 @@ JS
 	export default (\S*)---> module.exports = $1
 end
 -----------------
+wxs中的函数参数的替换
+-----------------
+WXS
+	export\s+default\s*\{--->module.exports = {
+end
+-----------------
 axml中的内容替换
 -----------------
 AXML
@@ -61,6 +67,10 @@ AXML
 	(^||\s+)on([A-Z]{1}\w+)\s*=--->$1bind$2=
 	\<canvas(.*?)\s+id=---><canvas$1 canvas-id=
 	(\w+)\.axml(\W)--->$1.wxml$2 # import include替换文件axml为wxml
+	<import\-sjs(.*?)name="(.*)"\s+from="(.*?)\.js(.*?)>(.*?)<\/import\-sjs>---><wxs$1module="$2" src="$3.wxs$4>$5</wxs> # import-sjs-->wxs
+	<import\-sjs(.*?)name="(.*)"\s+from="(.*?)\.js(.*?)\/>---><wxs$1module="$2" src="$3.wxs$4></wxs> # import-sjs-->wxs
+	<import\-sjs(.*?)from="(.*)\.js"\s+name="(.*?)>(.*?)<\/import\-sjs>---><wxs$1src="$2.wxs" name="$3>$4</wxs> # import-sjs-->wxs
+	<import\-sjs(.*?)from="(.*)\.js"\s+name="(.*?)\/>---><wxs$1src="$2.wxs" name="$3></wxs> # import-sjs-->wxs
 end
 -----------------
 ACSS中的内容替换
@@ -112,16 +122,6 @@ JS_API_PROP_REPLACE
 		setTextAlign
 	KEYS: 
 		textAlign--->align
-	#==========================================	
-	PRO: 
-		previewImage
-	KEYS: 
-		current--->current=number->string
-	#==========================================	
-	PRO: 
-		getLocation #获取位置
-	KEYS: 
-		type--->type=number->string
 	#==========================================
 	PRO: 
 		saveImage
